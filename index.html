@@ -1,0 +1,2522 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>Mis códigos</title>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<style>
+
+/* =====================================================
+   GENERAL
+===================================================== */
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #f2f2f2;
+    color: #222;
+}
+
+
+/* =====================================================
+   BARRA SUPERIOR
+===================================================== */
+
+.barra {
+    height: 60px;
+    background: white;
+    display: flex;
+    align-items: center;
+    padding: 0 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+.boton-menu {
+    background: none;
+    border: none;
+    font-size: 29px;
+    padding: 5px 10px;
+}
+
+.titulo-barra {
+    font-size: 20px;
+    font-weight: bold;
+    margin-left: 8px;
+    flex: 1;
+}
+
+
+/* =====================================================
+   MENU LATERAL
+===================================================== */
+
+.menu-lateral {
+    position: fixed;
+    top: 0;
+    left: -320px;
+    width: 300px;
+    height: 100%;
+    background: white;
+    z-index: 30;
+    box-shadow: 4px 0 15px rgba(0,0,0,0.2);
+    transition: left 0.25s;
+    overflow-y: auto;
+}
+
+.menu-lateral.abierto {
+    left: 0;
+}
+
+.cabecera-menu {
+    height: 60px;
+    display: flex;
+    align-items: center;
+    padding: 0 20px;
+    font-size: 21px;
+    font-weight: bold;
+    border-bottom: 1px solid #ddd;
+}
+
+.item-menu {
+    min-height: 45px;
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    border-bottom: 1px solid #eeeeee;
+    font-size: 16px;
+}
+
+.item-menu:hover {
+    background: #f2f2f2;
+}
+
+.item-nombre {
+    flex: 1;
+    cursor: pointer;
+}
+
+.item-acciones {
+    display: flex;
+    gap: 3px;
+}
+
+.item-acciones button {
+    background: none;
+    border: none;
+    font-size: 16px;
+    padding: 5px;
+}
+
+
+/* =====================================================
+   INDENTACIÓN
+===================================================== */
+
+.nivel-0 { padding-left: 12px; }
+.nivel-1 { padding-left: 32px; }
+.nivel-2 { padding-left: 52px; }
+.nivel-3 { padding-left: 72px; }
+.nivel-4 { padding-left: 92px; }
+.nivel-5 { padding-left: 112px; }
+.nivel-6 { padding-left: 132px; }
+.nivel-7 { padding-left: 152px; }
+.nivel-8 { padding-left: 172px; }
+.nivel-9 { padding-left: 192px; }
+
+
+/* =====================================================
+   OVERLAY
+===================================================== */
+
+.overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.4);
+    z-index: 20;
+    display: none;
+}
+
+.overlay.visible {
+    display: block;
+}
+
+
+/* =====================================================
+   CONTENIDO
+===================================================== */
+
+.contenedor {
+    max-width: 650px;
+    margin: auto;
+    padding: 20px;
+}
+
+.ruta {
+    background: white;
+    padding: 12px 15px;
+    border-radius: 10px;
+    margin-bottom: 15px;
+    color: #666;
+    font-size: 14px;
+}
+
+
+/* =====================================================
+   ADMIN
+===================================================== */
+
+.bloque-admin {
+    border-top: 1px solid #ddd;
+    margin-top: 10px;
+}
+
+.boton-administrar {
+    width: 100%;
+    background: white;
+    border: none;
+    padding: 15px;
+    text-align: left;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.boton-administrar:hover {
+    background: #f2f2f2;
+}
+
+
+/* =====================================================
+   BOTONES DE ADMINISTRACION
+===================================================== */
+
+.acciones {
+    display: none;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+body.modo-admin .acciones {
+    display: grid;
+}
+
+.accion {
+    background: white;
+    border: none;
+    border-radius: 10px;
+    padding: 14px 8px;
+    font-size: 15px;
+}
+
+
+/* =====================================================
+   SUBMENUS
+===================================================== */
+
+.submenu {
+    background: white;
+    padding: 15px;
+    border-radius: 12px;
+    margin-bottom: 12px;
+    box-shadow: 0 2px 7px rgba(0,0,0,0.08);
+}
+
+.submenu-nombre {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.submenu-botones {
+    display: flex;
+    gap: 8px;
+    margin-top: 12px;
+}
+
+.submenu-botones button {
+    flex: 1;
+    padding: 10px;
+    border: none;
+    border-radius: 8px;
+}
+
+
+/* =====================================================
+   CODIGOS
+===================================================== */
+
+.codigo {
+    background: white;
+    padding: 16px;
+    border-radius: 12px;
+    margin-bottom: 12px;
+    box-shadow: 0 2px 7px rgba(0,0,0,0.08);
+}
+
+.codigo-nombre {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.codigo-numero {
+    font-family: monospace;
+    font-size: 18px;
+    margin: 10px 0 14px 0;
+}
+
+.codigo-botones {
+    display: flex;
+    gap: 8px;
+}
+
+.codigo-botones button {
+    border: none;
+    border-radius: 8px;
+    padding: 10px;
+    font-size: 14px;
+}
+
+.boton-marcar {
+    flex: 1;
+}
+
+
+/* =====================================================
+   MODAL ADMIN
+===================================================== */
+
+.admin-fondo {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.45);
+    z-index: 100;
+    display: none;
+    justify-content: center;
+    align-items: center;
+}
+
+.admin-fondo.visible {
+    display: flex;
+}
+
+.admin-modal {
+    width: calc(100% - 40px);
+    max-width: 420px;
+    background: white;
+    border-radius: 15px;
+    padding: 20px;
+}
+
+.admin-modal h2 {
+    margin-top: 0;
+}
+
+.admin-modal input {
+    width: 100%;
+    padding: 13px;
+    margin-bottom: 12px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 16px;
+}
+
+.admin-botones {
+    display: flex;
+    gap: 10px;
+}
+
+.admin-botones button {
+    flex: 1;
+    border: none;
+    border-radius: 8px;
+    padding: 12px;
+}
+
+.admin-mensaje {
+    margin-top: 12px;
+    color: #c00;
+}
+
+
+/* =====================================================
+   MODAL DATOS
+===================================================== */
+
+.modal-fondo {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.45);
+    z-index: 50;
+    display: none;
+}
+
+.modal-fondo.visible {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal {
+    width: calc(100% - 40px);
+    max-width: 450px;
+    background: white;
+    border-radius: 15px;
+    padding: 20px;
+}
+
+.modal h2 {
+    margin-top: 0;
+}
+
+.modal input {
+    width: 100%;
+    padding: 13px;
+    margin-bottom: 12px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 16px;
+}
+
+.modal-botones {
+    display: flex;
+    gap: 10px;
+}
+
+.modal-botones button {
+    flex: 1;
+    border: none;
+    border-radius: 8px;
+    padding: 12px;
+}
+
+
+/* =====================================================
+   VACIO
+===================================================== */
+
+.vacio {
+    text-align: center;
+    color: #777;
+    background: white;
+    padding: 25px;
+    border-radius: 12px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+
+<!-- =====================================================
+     BARRA
+===================================================== -->
+
+<div class="barra">
+
+    <button
+        class="boton-menu"
+        onclick="abrirMenu()">
+
+        ☰
+
+    </button>
+
+    <div
+        class="titulo-barra"
+        id="tituloBarra">
+
+        Inicio
+
+    </div>
+
+</div>
+
+
+<!-- =====================================================
+     MENU LATERAL
+===================================================== -->
+
+<div
+    class="menu-lateral"
+    id="menuLateral">
+
+    <div class="cabecera-menu">
+
+        📱 Mis códigos
+
+    </div>
+
+    <div id="listaMenu"></div>
+
+</div>
+
+
+<div
+    class="overlay"
+    id="overlay"
+    onclick="cerrarMenu()">
+</div>
+
+
+<!-- =====================================================
+     CONTENIDO
+===================================================== -->
+
+<div class="contenedor">
+
+    <div
+        class="ruta"
+        id="ruta">
+
+        Inicio
+
+    </div>
+
+
+    <!-- ESTOS BOTONES SOLO APARECEN AL SER ADMIN -->
+
+    <div class="acciones">
+
+        <button
+            class="accion"
+            onclick="nuevoSubmenu()">
+
+            📁 Agregar menú
+
+        </button>
+
+
+        <button
+            class="accion"
+            onclick="nuevoCodigo()">
+
+            ➕ Agregar código
+
+        </button>
+
+    </div>
+
+
+    <div id="contenido"></div>
+
+</div>
+
+
+<!-- =====================================================
+     LOGIN ADMIN
+===================================================== -->
+
+<div
+    class="admin-fondo"
+    id="adminFondo">
+
+    <div class="admin-modal">
+
+        <h2>
+            ⚙️ Administrar
+        </h2>
+
+        <input
+            id="adminEmail"
+            type="email"
+            placeholder="Correo electrónico">
+
+        <input
+            id="adminPassword"
+            type="password"
+            placeholder="Contraseña">
+
+        <div class="admin-botones">
+
+            <button
+                onclick="cerrarLoginAdmin()">
+
+                Cancelar
+
+            </button>
+
+            <button
+                onclick="iniciarSesionAdmin()">
+
+                Entrar
+
+            </button>
+
+        </div>
+
+        <div
+            class="admin-mensaje"
+            id="adminMensaje">
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =====================================================
+     MODAL CREAR / EDITAR
+===================================================== -->
+
+<div
+    class="modal-fondo"
+    id="modalFondo">
+
+    <div class="modal">
+
+        <h2 id="modalTitulo">
+            Nuevo
+        </h2>
+
+        <input
+            id="modalNombre"
+            type="text"
+            placeholder="Nombre">
+
+        <input
+            id="modalCodigo"
+            type="text"
+            placeholder="Código USSD">
+
+        <div class="modal-botones">
+
+            <button
+                onclick="cerrarModal()">
+
+                Cancelar
+
+            </button>
+
+            <button
+                onclick="guardarModal()">
+
+                Guardar
+
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script>
+
+
+/* =====================================================
+   SUPABASE
+===================================================== */
+
+const SUPABASE_URL =
+    "https://cxipedfjlhmtikstefmn.supabase.co";
+
+
+const SUPABASE_PUBLISHABLE_KEY =
+    "sb_publishable_WlxwbgvTMtWM86VrTXVAWw_Xk4oZUUw";
+
+
+const supabaseClient =
+    window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_PUBLISHABLE_KEY
+    );
+
+
+/* =====================================================
+   VARIABLES
+===================================================== */
+
+let datos = null;
+
+let rutaActual = [];
+
+let tipoModal = "";
+
+let idEditar = null;
+
+let modoAdmin = false;
+
+
+/* =====================================================
+   INICIO
+===================================================== */
+
+document.addEventListener(
+    "DOMContentLoaded",
+    iniciarAplicacion
+);
+
+
+async function iniciarAplicacion() {
+
+    /*
+       Siempre comenzamos como
+       usuario normal.
+    */
+
+    modoAdmin = false;
+
+    document.body.classList.remove(
+        "modo-admin"
+    );
+
+    await cargarDatos();
+
+}
+
+
+/* =====================================================
+   CARGAR DATOS
+===================================================== */
+
+async function cargarDatos() {
+
+    const resultadoMenus =
+        await supabaseClient
+        .from("menus")
+        .select("*")
+        .order("orden", {
+            ascending: true
+        });
+
+
+    if (resultadoMenus.error) {
+
+        console.error(
+            resultadoMenus.error
+        );
+
+        alert(
+            "No se pudieron cargar los menús:\n\n" +
+            resultadoMenus.error.message
+        );
+
+        return;
+
+    }
+
+
+    const resultadoCodigos =
+        await supabaseClient
+        .from("codigos")
+        .select("*")
+        .order("orden", {
+            ascending: true
+        });
+
+
+    if (resultadoCodigos.error) {
+
+        console.error(
+            resultadoCodigos.error
+        );
+
+        alert(
+            "No se pudieron cargar los códigos:\n\n" +
+            resultadoCodigos.error.message
+        );
+
+        return;
+
+    }
+
+
+    const menus =
+        resultadoMenus.data || [];
+
+
+    const codigos =
+        resultadoCodigos.data || [];
+
+
+    datos = {
+
+        id: null,
+
+        nombre: "Inicio",
+
+        parent_id: null,
+
+        submenus: [],
+
+        codigos: []
+
+    };
+
+
+    const mapa = {};
+
+
+    menus.forEach(function(menu) {
+
+        mapa[menu.id] = {
+
+            id: menu.id,
+
+            nombre: menu.nombre,
+
+            parent_id: menu.parent_id,
+
+            orden: menu.orden || 0,
+
+            submenus: [],
+
+            codigos: []
+
+        };
+
+    });
+
+
+    /*
+       Construir árbol de menús
+    */
+
+    menus.forEach(function(menu) {
+
+        if (
+            menu.parent_id === null
+        ) {
+
+            datos.submenus.push(
+                mapa[menu.id]
+            );
+
+        }
+        else {
+
+            if (
+                mapa[menu.parent_id]
+            ) {
+
+                mapa[
+                    menu.parent_id
+                ].submenus.push(
+                    mapa[menu.id]
+                );
+
+            }
+
+        }
+
+    });
+
+
+    /*
+       Colocar códigos
+    */
+
+    codigos.forEach(function(item) {
+
+        if (
+            mapa[item.menu_id]
+        ) {
+
+            mapa[
+                item.menu_id
+            ].codigos.push({
+
+                id: item.id,
+
+                menu_id: item.menu_id,
+
+                nombre: item.nombre,
+
+                codigo: item.codigo,
+
+                orden: item.orden || 0
+
+            });
+
+        }
+
+    });
+
+
+    mostrarPantalla();
+
+}
+
+
+/* =====================================================
+   OBTENER MENU ACTUAL
+===================================================== */
+
+function obtenerMenuActual() {
+
+    let menu = datos;
+
+
+    for (
+        let i = 0;
+        i < rutaActual.length;
+        i++
+    ) {
+
+        menu =
+            menu.submenus[
+                rutaActual[i]
+            ];
+
+    }
+
+
+    return menu;
+
+}
+
+
+/* =====================================================
+   MOSTRAR PANTALLA
+===================================================== */
+
+function mostrarPantalla() {
+
+    if (!datos) return;
+
+
+    const menu =
+        obtenerMenuActual();
+
+
+    const contenido =
+        document.getElementById(
+            "contenido"
+        );
+
+
+    contenido.innerHTML = "";
+
+
+    document
+        .getElementById(
+            "tituloBarra"
+        )
+        .textContent =
+        menu.nombre;
+
+
+    mostrarRuta();
+
+
+    /*
+       SUBMENUS
+    */
+
+    menu.submenus.forEach(
+
+        function(submenu, indice) {
+
+            const tarjeta =
+                document.createElement(
+                    "div"
+                );
+
+
+            tarjeta.className =
+                "submenu";
+
+
+            tarjeta.innerHTML = `
+
+                <div class="submenu-nombre">
+
+                    📁
+                    ${escaparHTML(
+                        submenu.nombre
+                    )}
+
+                </div>
+
+
+                <div class="submenu-botones">
+
+                    <button
+                        onclick="abrirSubmenu(${indice})">
+
+                        📂 Abrir
+
+                    </button>
+
+                    ${
+                        modoAdmin
+                        ?
+                        `
+                        <button
+                            onclick="editarSubmenu(${indice})">
+
+                            ✏️ Editar
+
+                        </button>
+
+                        <button
+                            onclick="eliminarSubmenu(${indice})">
+
+                            🗑️
+
+                        </button>
+                        `
+                        :
+                        ""
+                    }
+
+                </div>
+
+            `;
+
+
+            contenido.appendChild(
+                tarjeta
+            );
+
+        }
+
+    );
+
+
+    /*
+       CODIGOS
+    */
+
+    menu.codigos.forEach(
+
+        function(item, indice) {
+
+            const tarjeta =
+                document.createElement(
+                    "div"
+                );
+
+
+            tarjeta.className =
+                "codigo";
+
+
+            tarjeta.innerHTML = `
+
+                <div class="codigo-nombre">
+
+                    ${escaparHTML(
+                        item.nombre
+                    )}
+
+                </div>
+
+
+                <div class="codigo-numero">
+
+                    ${escaparHTML(
+                        item.codigo
+                    )}
+
+                </div>
+
+
+                <div class="codigo-botones">
+
+                    <button
+                        class="boton-marcar"
+                        onclick="marcarCodigo(${indice})">
+
+                        📞 Marcar
+
+                    </button>
+
+
+                    ${
+                        modoAdmin
+                        ?
+                        `
+                        <button
+                            onclick="editarCodigo(${indice})">
+
+                            ✏️ Editar
+
+                        </button>
+
+                        <button
+                            onclick="eliminarCodigo(${indice})">
+
+                            🗑️
+
+                        </button>
+                        `
+                        :
+                        ""
+                    }
+
+                </div>
+
+            `;
+
+
+            contenido.appendChild(
+                tarjeta
+            );
+
+        }
+
+    );
+
+
+    /*
+       VACIO
+    */
+
+    if (
+        menu.submenus.length === 0 &&
+        menu.codigos.length === 0
+    ) {
+
+        const vacio =
+            document.createElement(
+                "div"
+            );
+
+
+        vacio.className =
+            "vacio";
+
+
+        vacio.textContent =
+            "Este menú está vacío.";
+
+
+        contenido.appendChild(
+            vacio
+        );
+
+    }
+
+
+    mostrarMenuLateral();
+
+}
+
+
+/* =====================================================
+   RUTA
+===================================================== */
+
+function mostrarRuta() {
+
+    const partes = ["Inicio"];
+
+    let menu = datos;
+
+
+    for (
+        let i = 0;
+        i < rutaActual.length;
+        i++
+    ) {
+
+        menu =
+            menu.submenus[
+                rutaActual[i]
+            ];
+
+
+        partes.push(
+            menu.nombre
+        );
+
+    }
+
+
+    document
+        .getElementById("ruta")
+        .textContent =
+        partes.join(" / ");
+
+}
+
+
+/* =====================================================
+   ABRIR SUBMENU
+===================================================== */
+
+function abrirSubmenu(indice) {
+
+    rutaActual.push(indice);
+
+    mostrarPantalla();
+
+}
+
+
+/* =====================================================
+   ADMINISTRAR
+===================================================== */
+
+function abrirAdministrar() {
+
+    cerrarMenu();
+
+
+    if (modoAdmin) {
+
+        cerrarSesionAdmin();
+
+        return;
+
+    }
+
+
+    document
+        .getElementById(
+            "adminMensaje"
+        )
+        .textContent = "";
+
+
+    document
+        .getElementById(
+            "adminEmail"
+        )
+        .value = "";
+
+
+    document
+        .getElementById(
+            "adminPassword"
+        )
+        .value = "";
+
+
+    document
+        .getElementById(
+            "adminFondo"
+        )
+        .classList
+        .add("visible");
+
+}
+
+
+function cerrarLoginAdmin() {
+
+    document
+        .getElementById(
+            "adminFondo"
+        )
+        .classList
+        .remove("visible");
+
+}
+
+
+/* =====================================================
+   LOGIN ADMIN
+===================================================== */
+
+async function iniciarSesionAdmin() {
+
+    const email =
+        document
+        .getElementById(
+            "adminEmail"
+        )
+        .value
+        .trim();
+
+
+    const password =
+        document
+        .getElementById(
+            "adminPassword"
+        )
+        .value;
+
+
+    const mensaje =
+        document
+        .getElementById(
+            "adminMensaje"
+        );
+
+
+    mensaje.textContent = "";
+
+
+    if (
+        !email ||
+        !password
+    ) {
+
+        mensaje.textContent =
+            "Escribe el correo y la contraseña.";
+
+        return;
+
+    }
+
+
+    const resultado =
+        await supabaseClient
+        .auth
+        .signInWithPassword({
+
+            email: email,
+
+            password: password
+
+        });
+
+
+    if (resultado.error) {
+
+        mensaje.textContent =
+            "Correo o contraseña incorrectos.";
+
+        return;
+
+    }
+
+
+    const usuario =
+        resultado.data.user;
+
+
+    /*
+       Comprobar rol
+    */
+
+    const resultadoPerfil =
+        await supabaseClient
+        .from("profiles")
+        .select("rol")
+        .eq(
+            "id",
+            usuario.id
+        )
+        .single();
+
+
+    if (
+        resultadoPerfil.error ||
+        !resultadoPerfil.data ||
+        resultadoPerfil.data.rol !== "admin"
+    ) {
+
+        await supabaseClient
+            .auth
+            .signOut();
+
+
+        mensaje.textContent =
+            "Este usuario no es administrador.";
+
+        return;
+
+    }
+
+
+    /*
+       ADMIN ACTIVADO
+    */
+
+    modoAdmin = true;
+
+
+    document.body.classList.add(
+        "modo-admin"
+    );
+
+
+    cerrarLoginAdmin();
+
+
+    mostrarPantalla();
+
+}
+
+
+/* =====================================================
+   CERRAR SESION ADMIN
+===================================================== */
+
+async function cerrarSesionAdmin() {
+
+    await supabaseClient
+        .auth
+        .signOut();
+
+
+    modoAdmin = false;
+
+
+    document.body.classList.remove(
+        "modo-admin"
+    );
+
+
+    rutaActual = [];
+
+
+    await cargarDatos();
+
+}
+
+
+/* =====================================================
+   NUEVO MENU
+===================================================== */
+
+function nuevoSubmenu() {
+
+    if (!modoAdmin) return;
+
+
+    tipoModal =
+        "nuevoSubmenu";
+
+
+    idEditar = null;
+
+
+    document
+        .getElementById(
+            "modalTitulo"
+        )
+        .textContent =
+        "📁 Nuevo menú";
+
+
+    document
+        .getElementById(
+            "modalNombre"
+        )
+        .value = "";
+
+
+    document
+        .getElementById(
+            "modalCodigo"
+        )
+        .style.display =
+        "none";
+
+
+    document
+        .getElementById(
+            "modalFondo"
+        )
+        .classList
+        .add("visible");
+
+}
+
+
+/* =====================================================
+   NUEVO CODIGO
+===================================================== */
+
+function nuevoCodigo() {
+
+    if (!modoAdmin) return;
+
+
+    const menu =
+        obtenerMenuActual();
+
+
+    if (!menu.id) {
+
+        alert(
+            "Selecciona un menú antes de agregar un código."
+        );
+
+        return;
+
+    }
+
+
+    tipoModal =
+        "nuevoCodigo";
+
+
+    idEditar = null;
+
+
+    document
+        .getElementById(
+            "modalTitulo"
+        )
+        .textContent =
+        "📞 Nuevo código";
+
+
+    document
+        .getElementById(
+            "modalNombre"
+        )
+        .value = "";
+
+
+    document
+        .getElementById(
+            "modalCodigo"
+        )
+        .value = "";
+
+
+    document
+        .getElementById(
+            "modalCodigo"
+        )
+        .style.display =
+        "block";
+
+
+    document
+        .getElementById(
+            "modalFondo"
+        )
+        .classList
+        .add("visible");
+
+}
+
+
+/* =====================================================
+   EDITAR MENU
+===================================================== */
+
+function editarSubmenu(indice) {
+
+    if (!modoAdmin) return;
+
+
+    const menu =
+        obtenerMenuActual();
+
+
+    const submenu =
+        menu.submenus[
+            indice
+        ];
+
+
+    tipoModal =
+        "editarSubmenu";
+
+
+    idEditar =
+        submenu.id;
+
+
+    document
+        .getElementById(
+            "modalTitulo"
+        )
+        .textContent =
+        "✏️ Editar menú";
+
+
+    document
+        .getElementById(
+            "modalNombre"
+        )
+        .value =
+        submenu.nombre;
+
+
+    document
+        .getElementById(
+            "modalCodigo"
+        )
+        .style.display =
+        "none";
+
+
+    document
+        .getElementById(
+            "modalFondo"
+        )
+        .classList
+        .add("visible");
+
+}
+
+
+/* =====================================================
+   EDITAR CODIGO
+===================================================== */
+
+function editarCodigo(indice) {
+
+    if (!modoAdmin) return;
+
+
+    const menu =
+        obtenerMenuActual();
+
+
+    const item =
+        menu.codigos[
+            indice
+        ];
+
+
+    tipoModal =
+        "editarCodigo";
+
+
+    idEditar =
+        item.id;
+
+
+    document
+        .getElementById(
+            "modalTitulo"
+        )
+        .textContent =
+        "✏️ Editar código";
+
+
+    document
+        .getElementById(
+            "modalNombre"
+        )
+        .value =
+        item.nombre;
+
+
+    document
+        .getElementById(
+            "modalCodigo"
+        )
+        .value =
+        item.codigo;
+
+
+    document
+        .getElementById(
+            "modalCodigo"
+        )
+        .style.display =
+        "block";
+
+
+    document
+        .getElementById(
+            "modalFondo"
+        )
+        .classList
+        .add("visible");
+
+}
+
+
+/* =====================================================
+   GUARDAR
+===================================================== */
+
+async function guardarModal() {
+
+    if (!modoAdmin) return;
+
+
+    const nombre =
+        document
+        .getElementById(
+            "modalNombre"
+        )
+        .value
+        .trim();
+
+
+    const codigo =
+        document
+        .getElementById(
+            "modalCodigo"
+        )
+        .value
+        .trim();
+
+
+    if (!nombre) {
+
+        alert(
+            "Escribe un nombre."
+        );
+
+        return;
+
+    }
+
+
+    const menu =
+        obtenerMenuActual();
+
+
+    /*
+       NUEVO MENU
+    */
+
+    if (
+        tipoModal ===
+        "nuevoSubmenu"
+    ) {
+
+        const resultado =
+            await supabaseClient
+            .from("menus")
+            .insert({
+
+                nombre:
+                    nombre,
+
+                parent_id:
+                    menu.id,
+
+                orden:
+                    menu.submenus.length
+
+            });
+
+
+        if (resultado.error) {
+
+            alert(
+                "No se pudo crear el menú:\n\n" +
+                resultado.error.message
+            );
+
+            return;
+
+        }
+
+    }
+
+
+    /*
+       EDITAR MENU
+    */
+
+    else if (
+        tipoModal ===
+        "editarSubmenu"
+    ) {
+
+        const resultado =
+            await supabaseClient
+            .from("menus")
+            .update({
+
+                nombre:
+                    nombre
+
+            })
+            .eq(
+                "id",
+                idEditar
+            );
+
+
+        if (resultado.error) {
+
+            alert(
+                "No se pudo editar el menú:\n\n" +
+                resultado.error.message
+            );
+
+            return;
+
+        }
+
+    }
+
+
+    /*
+       NUEVO CODIGO
+    */
+
+    else if (
+        tipoModal ===
+        "nuevoCodigo"
+    ) {
+
+        if (!codigo) {
+
+            alert(
+                "Escribe el código USSD."
+            );
+
+            return;
+
+        }
+
+
+        const resultado =
+            await supabaseClient
+            .from("codigos")
+            .insert({
+
+                menu_id:
+                    menu.id,
+
+                nombre:
+                    nombre,
+
+                codigo:
+                    codigo,
+
+                orden:
+                    menu.codigos.length
+
+            });
+
+
+        if (resultado.error) {
+
+            alert(
+                "No se pudo crear el código:\n\n" +
+                resultado.error.message
+            );
+
+            return;
+
+        }
+
+    }
+
+
+    /*
+       EDITAR CODIGO
+    */
+
+    else if (
+        tipoModal ===
+        "editarCodigo"
+    ) {
+
+        if (!codigo) {
+
+            alert(
+                "Escribe el código USSD."
+            );
+
+            return;
+
+        }
+
+
+        const resultado =
+            await supabaseClient
+            .from("codigos")
+            .update({
+
+                nombre:
+                    nombre,
+
+                codigo:
+                    codigo
+
+            })
+            .eq(
+                "id",
+                idEditar
+            );
+
+
+        if (resultado.error) {
+
+            alert(
+                "No se pudo editar el código:\n\n" +
+                resultado.error.message
+            );
+
+            return;
+
+        }
+
+    }
+
+
+    cerrarModal();
+
+
+    await cargarDatos();
+
+}
+
+
+/* =====================================================
+   ELIMINAR MENU
+===================================================== */
+
+async function eliminarSubmenu(indice) {
+
+    if (!modoAdmin) return;
+
+
+    const menu =
+        obtenerMenuActual();
+
+
+    const submenu =
+        menu.submenus[
+            indice
+        ];
+
+
+    if (
+        !confirm(
+            "¿Eliminar el menú '" +
+            submenu.nombre +
+            "' y todo su contenido?"
+        )
+    ) {
+
+        return;
+
+    }
+
+
+    const resultado =
+        await supabaseClient
+        .from("menus")
+        .delete()
+        .eq(
+            "id",
+            submenu.id
+        );
+
+
+    if (resultado.error) {
+
+        alert(
+            "No se pudo eliminar el menú:\n\n" +
+            resultado.error.message
+        );
+
+        return;
+
+    }
+
+
+    rutaActual = [];
+
+
+    await cargarDatos();
+
+}
+
+
+/* =====================================================
+   ELIMINAR CODIGO
+===================================================== */
+
+async function eliminarCodigo(indice) {
+
+    if (!modoAdmin) return;
+
+
+    if (
+        !confirm(
+            "¿Eliminar este código?"
+        )
+    ) {
+
+        return;
+
+    }
+
+
+    const menu =
+        obtenerMenuActual();
+
+
+    const item =
+        menu.codigos[
+            indice
+        ];
+
+
+    const resultado =
+        await supabaseClient
+        .from("codigos")
+        .delete()
+        .eq(
+            "id",
+            item.id
+        );
+
+
+    if (resultado.error) {
+
+        alert(
+            "No se pudo eliminar el código:\n\n" +
+            resultado.error.message
+        );
+
+        return;
+
+    }
+
+
+    await cargarDatos();
+
+}
+
+
+/* =====================================================
+   MARCAR CODIGO
+===================================================== */
+
+function marcarCodigo(indice) {
+
+    const menu =
+        obtenerMenuActual();
+
+
+    const codigo =
+        menu.codigos[
+            indice
+        ].codigo
+        .trim();
+
+
+    const numero =
+        codigo.replace(
+            /#/g,
+            "%23"
+        );
+
+
+    window.location.href =
+        "tel:" + numero;
+
+}
+
+
+/* =====================================================
+   ABRIR MENU
+===================================================== */
+
+function abrirMenu() {
+
+    document
+        .getElementById(
+            "menuLateral"
+        )
+        .classList
+        .add("abierto");
+
+
+    document
+        .getElementById(
+            "overlay"
+        )
+        .classList
+        .add("visible");
+
+}
+
+
+/* =====================================================
+   CERRAR MENU
+===================================================== */
+
+function cerrarMenu() {
+
+    document
+        .getElementById(
+            "menuLateral"
+        )
+        .classList
+        .remove("abierto");
+
+
+    document
+        .getElementById(
+            "overlay"
+        )
+        .classList
+        .remove("visible");
+
+}
+
+
+/* =====================================================
+   MENU LATERAL
+===================================================== */
+
+function mostrarMenuLateral() {
+
+    const lista =
+        document.getElementById(
+            "listaMenu"
+        );
+
+
+    lista.innerHTML = "";
+
+
+    /*
+       INICIO
+    */
+
+    const inicio =
+        document.createElement(
+            "div"
+        );
+
+
+    inicio.className =
+        "item-menu nivel-0";
+
+
+    inicio.innerHTML = `
+
+        <div class="item-nombre">
+
+            🏠 Inicio
+
+        </div>
+
+    `;
+
+
+    inicio.onclick =
+        function() {
+
+            rutaActual = [];
+
+            mostrarPantalla();
+
+            cerrarMenu();
+
+        };
+
+
+    lista.appendChild(
+        inicio
+    );
+
+
+    /*
+       ARBOL DE MENUS
+    */
+
+    crearArbolMenu(
+        datos,
+        lista,
+        []
+    );
+
+
+    /*
+       ADMINISTRAR
+    */
+
+    const separador =
+        document.createElement(
+            "div"
+        );
+
+
+    separador.className =
+        "bloque-admin";
+
+
+    lista.appendChild(
+        separador
+    );
+
+
+    const botonAdmin =
+        document.createElement(
+            "button"
+        );
+
+
+    botonAdmin.className =
+        "boton-administrar";
+
+
+    botonAdmin.innerHTML =
+        modoAdmin
+        ?
+        "🔓 Salir de administrar"
+        :
+        "⚙️ Administrar";
+
+
+    botonAdmin.onclick =
+        function() {
+
+            abrirAdministrar();
+
+        };
+
+
+    separador.appendChild(
+        botonAdmin
+    );
+
+}
+
+
+/* =====================================================
+   CREAR ARBOL
+===================================================== */
+
+function crearArbolMenu(
+    menu,
+    contenedor,
+    ruta
+) {
+
+    menu.submenus.forEach(
+
+        function(submenu, indice) {
+
+            const nuevaRuta =
+                ruta.concat(indice);
+
+
+            const nivel =
+                Math.min(
+                    nuevaRuta.length,
+                    9
+                );
+
+
+            const elemento =
+                document.createElement(
+                    "div"
+                );
+
+
+            elemento.className =
+                "item-menu nivel-" +
+                nivel;
+
+
+            elemento.innerHTML = `
+
+                <div
+                    class="item-nombre">
+
+                    📁
+                    ${escaparHTML(
+                        submenu.nombre
+                    )}
+
+                </div>
+
+
+                ${
+                    modoAdmin
+                    ?
+                    `
+                    <div
+                        class="item-acciones">
+
+                        <button
+                            title="Editar"
+                            onclick="editarDesdeMenu(event, ${submenu.id})">
+
+                            ✏️
+
+                        </button>
+
+
+                        <button
+                            title="Eliminar"
+                            onclick="eliminarDesdeMenu(event, ${submenu.id})">
+
+                            🗑️
+
+                        </button>
+
+                    </div>
+                    `
+                    :
+                    ""
+                }
+
+            `;
+
+
+            elemento
+                .querySelector(
+                    ".item-nombre"
+                )
+                .onclick =
+                function() {
+
+                    rutaActual =
+                        nuevaRuta;
+
+                    mostrarPantalla();
+
+                    cerrarMenu();
+
+                };
+
+
+            contenedor.appendChild(
+                elemento
+            );
+
+
+            crearArbolMenu(
+                submenu,
+                contenedor,
+                nuevaRuta
+            );
+
+        }
+
+    );
+
+}
+
+
+/* =====================================================
+   EDITAR DESDE MENU
+===================================================== */
+
+function editarDesdeMenu(
+    evento,
+    id
+) {
+
+    evento.stopPropagation();
+
+
+    if (!modoAdmin) return;
+
+
+    const submenu =
+        buscarMenuPorId(
+            datos,
+            id
+        );
+
+
+    if (!submenu) return;
+
+
+    tipoModal =
+        "editarSubmenu";
+
+
+    idEditar =
+        id;
+
+
+    document
+        .getElementById(
+            "modalTitulo"
+        )
+        .textContent =
+        "✏️ Editar menú";
+
+
+    document
+        .getElementById(
+            "modalNombre"
+        )
+        .value =
+        submenu.nombre;
+
+
+    document
+        .getElementById(
+            "modalCodigo"
+        )
+        .style.display =
+        "none";
+
+
+    document
+        .getElementById(
+            "modalFondo"
+        )
+        .classList
+        .add("visible");
+
+}
+
+
+/* =====================================================
+   ELIMINAR DESDE MENU
+===================================================== */
+
+async function eliminarDesdeMenu(
+    evento,
+    id
+) {
+
+    evento.stopPropagation();
+
+
+    if (!modoAdmin) return;
+
+
+    const submenu =
+        buscarMenuPorId(
+            datos,
+            id
+        );
+
+
+    if (!submenu) return;
+
+
+    if (
+        !confirm(
+            "¿Eliminar '" +
+            submenu.nombre +
+            "' y todo su contenido?"
+        )
+    ) {
+
+        return;
+
+    }
+
+
+    const resultado =
+        await supabaseClient
+        .from("menus")
+        .delete()
+        .eq(
+            "id",
+            id
+        );
+
+
+    if (resultado.error) {
+
+        alert(
+            "No se pudo eliminar:\n\n" +
+            resultado.error.message
+        );
+
+        return;
+
+    }
+
+
+    rutaActual = [];
+
+
+    await cargarDatos();
+
+}
+
+
+/* =====================================================
+   BUSCAR MENU POR ID
+===================================================== */
+
+function buscarMenuPorId(
+    menu,
+    id
+) {
+
+    if (
+        menu.id === id
+    ) {
+
+        return menu;
+
+    }
+
+
+    for (
+        const submenu of menu.submenus
+    ) {
+
+        const encontrado =
+            buscarMenuPorId(
+                submenu,
+                id
+            );
+
+
+        if (encontrado) {
+
+            return encontrado;
+
+        }
+
+    }
+
+
+    return null;
+
+}
+
+
+/* =====================================================
+   CERRAR MODAL
+===================================================== */
+
+function cerrarModal() {
+
+    document
+        .getElementById(
+            "modalFondo"
+        )
+        .classList
+        .remove("visible");
+
+
+    tipoModal = "";
+
+    idEditar = null;
+
+}
+
+
+/* =====================================================
+   ESCAPAR HTML
+===================================================== */
+
+function escaparHTML(
+    texto
+) {
+
+    const div =
+        document.createElement(
+            "div"
+        );
+
+
+    div.textContent =
+        texto;
+
+
+    return div.innerHTML;
+
+}
+
+</script>
+
+</body>
+
+</html>
