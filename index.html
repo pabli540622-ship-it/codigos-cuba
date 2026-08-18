@@ -1,0 +1,2166 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>Mis códigos</title>
+
+<style>
+
+/* =====================================================
+   GENERAL
+===================================================== */
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #f2f2f2;
+    color: #222;
+}
+
+
+/* =====================================================
+   BARRA SUPERIOR
+===================================================== */
+
+.barra {
+    height: 60px;
+    background: white;
+    display: flex;
+    align-items: center;
+    padding: 0 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+.boton-menu {
+    background: none;
+    border: none;
+    font-size: 29px;
+    padding: 5px 10px;
+}
+
+.titulo-barra {
+    font-size: 20px;
+    font-weight: bold;
+    margin-left: 8px;
+}
+
+
+/* =====================================================
+   MENU LATERAL
+===================================================== */
+
+.menu-lateral {
+    position: fixed;
+    top: 0;
+    left: -320px;
+    width: 300px;
+    height: 100%;
+    background: white;
+    z-index: 30;
+    box-shadow: 4px 0 15px rgba(0,0,0,0.2);
+    transition: left 0.25s;
+    overflow-y: auto;
+}
+
+.menu-lateral.abierto {
+    left: 0;
+}
+
+.cabecera-menu {
+    height: 60px;
+    display: flex;
+    align-items: center;
+    padding: 0 20px;
+    font-size: 21px;
+    font-weight: bold;
+    border-bottom: 1px solid #ddd;
+}
+
+
+/* =====================================================
+   ITEMS DEL MENU LATERAL
+===================================================== */
+
+.item-menu {
+    min-height: 45px;
+    display: flex;
+    align-items: center;
+    padding: 10px 10px;
+    border-bottom: 1px solid #eeeeee;
+    font-size: 16px;
+}
+
+.item-menu:hover {
+    background: #f2f2f2;
+}
+
+.item-nombre {
+    flex: 1;
+    cursor: pointer;
+}
+
+.item-acciones {
+    display: flex;
+    gap: 3px;
+}
+
+.item-acciones button {
+    background: none;
+    border: none;
+    font-size: 16px;
+    padding: 5px;
+}
+
+
+/* =====================================================
+   INDENTACIÓN DE SUBMENUS
+===================================================== */
+
+.nivel-0 {
+    padding-left: 12px;
+}
+
+.nivel-1 {
+    padding-left: 32px;
+}
+
+.nivel-2 {
+    padding-left: 52px;
+}
+
+.nivel-3 {
+    padding-left: 72px;
+}
+
+.nivel-4 {
+    padding-left: 92px;
+}
+
+.nivel-5 {
+    padding-left: 112px;
+}
+
+.nivel-6 {
+    padding-left: 132px;
+}
+
+.nivel-7 {
+    padding-left: 152px;
+}
+
+.nivel-8 {
+    padding-left: 172px;
+}
+
+.nivel-9 {
+    padding-left: 192px;
+}
+
+
+/* =====================================================
+   FONDO DEL MENU
+===================================================== */
+
+.overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.4);
+    z-index: 20;
+    display: none;
+}
+
+.overlay.visible {
+    display: block;
+}
+
+
+/* =====================================================
+   CONTENIDO PRINCIPAL
+===================================================== */
+
+.contenedor {
+    max-width: 650px;
+    margin: auto;
+    padding: 20px;
+}
+
+
+/* =====================================================
+   RUTA
+===================================================== */
+
+.ruta {
+    background: white;
+    padding: 12px 15px;
+    border-radius: 10px;
+    margin-bottom: 15px;
+    color: #666;
+    font-size: 14px;
+}
+
+
+/* =====================================================
+   BOTONES PRINCIPALES
+===================================================== */
+
+.acciones {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.accion {
+    background: white;
+    border: none;
+    border-radius: 10px;
+    padding: 14px 8px;
+    font-size: 15px;
+}
+
+
+/* =====================================================
+   TARJETAS DE SUBMENUS
+===================================================== */
+
+.submenu {
+    background: white;
+    padding: 15px;
+    border-radius: 12px;
+    margin-bottom: 12px;
+    box-shadow: 0 2px 7px rgba(0,0,0,0.08);
+}
+
+.submenu-nombre {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.submenu-botones {
+    display: flex;
+    gap: 8px;
+    margin-top: 12px;
+}
+
+.submenu-botones button {
+    flex: 1;
+    padding: 10px;
+    border: none;
+    border-radius: 8px;
+}
+
+
+/* =====================================================
+   CODIGOS
+===================================================== */
+
+.codigo {
+    background: white;
+    padding: 16px;
+    border-radius: 12px;
+    margin-bottom: 12px;
+    box-shadow: 0 2px 7px rgba(0,0,0,0.08);
+}
+
+.codigo-nombre {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.codigo-numero {
+    font-family: monospace;
+    font-size: 18px;
+    margin: 10px 0 14px 0;
+}
+
+.codigo-botones {
+    display: flex;
+    gap: 8px;
+}
+
+.codigo-botones button {
+    border: none;
+    border-radius: 8px;
+    padding: 10px;
+    font-size: 14px;
+}
+
+.boton-marcar {
+    flex: 1;
+}
+
+
+/* =====================================================
+   MODAL
+===================================================== */
+
+.modal-fondo {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.45);
+    z-index: 50;
+    display: none;
+}
+
+.modal-fondo.visible {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal {
+    width: calc(100% - 40px);
+    max-width: 450px;
+    background: white;
+    border-radius: 15px;
+    padding: 20px;
+}
+
+.modal h2 {
+    margin-top: 0;
+}
+
+.modal input {
+    width: 100%;
+    padding: 13px;
+    margin-bottom: 12px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 16px;
+}
+
+.modal-botones {
+    display: flex;
+    gap: 10px;
+}
+
+.modal-botones button {
+    flex: 1;
+    border: none;
+    border-radius: 8px;
+    padding: 12px;
+}
+
+
+/* =====================================================
+   VACIO
+===================================================== */
+
+.vacio {
+    text-align: center;
+    color: #777;
+    background: white;
+    padding: 25px;
+    border-radius: 12px;
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<!-- =====================================================
+     BARRA SUPERIOR
+===================================================== -->
+
+<div class="barra">
+
+    <button
+        class="boton-menu"
+        onclick="abrirMenu()">
+
+        ☰
+
+    </button>
+
+    <div
+        class="titulo-barra"
+        id="tituloBarra">
+
+        Inicio
+
+    </div>
+
+</div>
+
+
+<!-- =====================================================
+     MENU LATERAL
+===================================================== -->
+
+<div
+    class="menu-lateral"
+    id="menuLateral">
+
+    <div class="cabecera-menu">
+
+        📱 Mis códigos
+
+    </div>
+
+    <div id="listaMenu"></div>
+
+</div>
+
+
+<div
+    class="overlay"
+    id="overlay"
+    onclick="cerrarMenu()">
+</div>
+
+
+<!-- =====================================================
+     CONTENIDO
+===================================================== -->
+
+<div class="contenedor">
+
+
+    <div
+        class="ruta"
+        id="ruta">
+
+        Inicio
+
+    </div>
+
+
+    <div class="acciones">
+
+        <button
+            class="accion"
+            onclick="nuevoSubmenu()">
+
+            📁 Agregar menú
+
+        </button>
+
+
+        <button
+            class="accion"
+            onclick="nuevoCodigo()">
+
+            ➕ Agregar código
+
+        </button>
+
+    </div>
+
+
+    <div id="contenido"></div>
+
+
+</div>
+
+
+<!-- =====================================================
+     MODAL
+===================================================== -->
+
+<div
+    class="modal-fondo"
+    id="modalFondo">
+
+
+    <div class="modal">
+
+
+        <h2 id="modalTitulo">
+            Nuevo
+        </h2>
+
+
+        <input
+            id="modalNombre"
+            type="text"
+            placeholder="Nombre">
+
+
+        <input
+            id="modalCodigo"
+            type="text"
+            placeholder="Código USSD">
+
+
+        <div class="modal-botones">
+
+
+            <button
+                onclick="cerrarModal()">
+
+                Cancelar
+
+            </button>
+
+
+            <button
+                onclick="guardarModal()">
+
+                Guardar
+
+            </button>
+
+
+        </div>
+
+
+    </div>
+
+</div>
+
+
+<script>
+
+
+/* =====================================================
+   ESTRUCTURA DE DATOS
+===================================================== */
+
+
+/*
+Cada menú tiene:
+
+nombre
+submenus
+codigos
+
+Esto permite crear niveles infinitos.
+*/
+
+
+let datos;
+
+
+try {
+
+    let guardado =
+        localStorage.getItem(
+            "miAplicacionUSSD"
+        );
+
+
+    if (guardado) {
+
+        datos =
+            JSON.parse(guardado);
+
+    }
+
+}
+
+catch (error) {
+
+    datos = null;
+
+}
+
+
+/*
+Si es la primera vez:
+*/
+
+if (!datos) {
+
+    datos = {
+
+        nombre: "Inicio",
+
+        submenus: [],
+
+        codigos: []
+
+    };
+
+}
+
+
+/* =====================================================
+   RUTA ACTUAL
+===================================================== */
+
+let rutaActual = [];
+
+
+/* =====================================================
+   TIPO DE OPERACION DEL MODAL
+===================================================== */
+
+let tipoModal = "";
+
+let indiceEditar = -1;
+
+
+/* =====================================================
+   GUARDAR DATOS
+===================================================== */
+
+function guardarDatos() {
+
+    localStorage.setItem(
+
+        "miAplicacionUSSD",
+
+        JSON.stringify(datos)
+
+    );
+
+}
+
+
+/* =====================================================
+   OBTENER MENU ACTUAL
+===================================================== */
+
+function obtenerMenuActual() {
+
+    let menu = datos;
+
+
+    for (
+        let i = 0;
+        i < rutaActual.length;
+        i++
+    ) {
+
+        menu =
+            menu.submenus[
+                rutaActual[i]
+            ];
+
+    }
+
+
+    return menu;
+
+}
+
+
+/* =====================================================
+   MOSTRAR PANTALLA
+===================================================== */
+
+function mostrarPantalla() {
+
+
+    let menu =
+        obtenerMenuActual();
+
+
+    let contenido =
+        document.getElementById(
+            "contenido"
+        );
+
+
+    contenido.innerHTML = "";
+
+
+    document
+        .getElementById(
+            "tituloBarra"
+        )
+        .textContent =
+        menu.nombre;
+
+
+    mostrarRuta();
+
+
+    /*
+    ============================
+    SUBMENUS
+    ============================
+    */
+
+
+    menu.submenus.forEach(
+
+        function(submenu, indice) {
+
+
+            let tarjeta =
+                document.createElement(
+                    "div"
+                );
+
+
+            tarjeta.className =
+                "submenu";
+
+
+            tarjeta.innerHTML = `
+
+                <div class="submenu-nombre">
+
+                    📁
+                    ${escaparHTML(
+                        submenu.nombre
+                    )}
+
+                </div>
+
+
+                <div class="submenu-botones">
+
+
+                    <button
+                        onclick="abrirSubmenu(${indice})">
+
+                        📂 Abrir
+
+                    </button>
+
+
+                    <button
+                        onclick="editarSubmenu(${indice})">
+
+                        ✏️ Editar
+
+                    </button>
+
+
+                    <button
+                        onclick="eliminarSubmenu(${indice})">
+
+                        🗑️
+
+                    </button>
+
+
+                </div>
+
+            `;
+
+
+            contenido.appendChild(
+                tarjeta
+            );
+
+        }
+
+    );
+
+
+    /*
+    ============================
+    CODIGOS
+    ============================
+    */
+
+
+    menu.codigos.forEach(
+
+        function(item, indice) {
+
+
+            let tarjeta =
+                document.createElement(
+                    "div"
+                );
+
+
+            tarjeta.className =
+                "codigo";
+
+
+            tarjeta.innerHTML = `
+
+                <div class="codigo-nombre">
+
+                    ${escaparHTML(
+                        item.nombre
+                    )}
+
+                </div>
+
+
+                <div class="codigo-numero">
+
+                    ${escaparHTML(
+                        item.codigo
+                    )}
+
+                </div>
+
+
+                <div class="codigo-botones">
+
+
+                    <button
+                        class="boton-marcar"
+                        onclick="marcarCodigo(${indice})">
+
+                        📞 Marcar
+
+                    </button>
+
+
+                    <button
+                        onclick="editarCodigo(${indice})">
+
+                        ✏️ Editar
+
+                    </button>
+
+
+                    <button
+                        onclick="eliminarCodigo(${indice})">
+
+                        🗑️
+
+                    </button>
+
+
+                </div>
+
+            `;
+
+
+            contenido.appendChild(
+                tarjeta
+            );
+
+        }
+
+    );
+
+
+    /*
+    ============================
+    SI ESTÁ VACÍO
+    ============================
+    */
+
+
+    if (
+        menu.submenus.length === 0 &&
+        menu.codigos.length === 0
+    ) {
+
+        let vacio =
+            document.createElement(
+                "div"
+            );
+
+
+        vacio.className =
+            "vacio";
+
+
+        vacio.textContent =
+            "Este menú está vacío.";
+
+
+        contenido.appendChild(
+            vacio
+        );
+
+    }
+
+
+    mostrarMenuLateral();
+
+}
+
+
+/* =====================================================
+   MOSTRAR RUTA
+===================================================== */
+
+function mostrarRuta() {
+
+
+    let partes = ["Inicio"];
+
+    let menu = datos;
+
+
+    for (
+        let i = 0;
+        i < rutaActual.length;
+        i++
+    ) {
+
+        menu =
+            menu.submenus[
+                rutaActual[i]
+            ];
+
+
+        partes.push(
+            menu.nombre
+        );
+
+    }
+
+
+    document
+        .getElementById("ruta")
+        .textContent =
+        partes.join(" / ");
+
+}
+
+
+/* =====================================================
+   ABRIR SUBMENU
+===================================================== */
+
+function abrirSubmenu(indice) {
+
+    rutaActual.push(indice);
+
+    mostrarPantalla();
+
+}
+
+
+/* =====================================================
+   VOLVER
+===================================================== */
+
+function volver() {
+
+    if (
+        rutaActual.length > 0
+    ) {
+
+        rutaActual.pop();
+
+        mostrarPantalla();
+
+    }
+
+}
+
+
+/* =====================================================
+   NUEVO SUBMENU
+===================================================== */
+
+function nuevoSubmenu() {
+
+
+    tipoModal =
+        "nuevoSubmenu";
+
+
+    indiceEditar =
+        -1;
+
+
+    document
+        .getElementById(
+            "modalTitulo"
+        )
+        .textContent =
+        "📁 Nuevo menú";
+
+
+    document
+        .getElementById(
+            "modalNombre"
+        )
+        .value = "";
+
+
+    document
+        .getElementById(
+            "modalCodigo"
+        )
+        .style.display =
+        "none";
+
+
+    document
+        .getElementById(
+            "modalFondo"
+        )
+        .classList
+        .add("visible");
+
+}
+
+
+/* =====================================================
+   NUEVO CODIGO
+===================================================== */
+
+function nuevoCodigo() {
+
+
+    tipoModal =
+        "nuevoCodigo";
+
+
+    indiceEditar =
+        -1;
+
+
+    document
+        .getElementById(
+            "modalTitulo"
+        )
+        .textContent =
+        "📞 Nuevo código";
+
+
+    document
+        .getElementById(
+            "modalNombre"
+        )
+        .value = "";
+
+
+    document
+        .getElementById(
+            "modalCodigo"
+        )
+        .value = "";
+
+
+    document
+        .getElementById(
+            "modalCodigo"
+        )
+        .style.display =
+        "block";
+
+
+    document
+        .getElementById(
+            "modalFondo"
+        )
+        .classList
+        .add("visible");
+
+}
+
+
+/* =====================================================
+   EDITAR SUBMENU
+===================================================== */
+
+function editarSubmenu(indice) {
+
+
+    tipoModal =
+        "editarSubmenu";
+
+
+    indiceEditar =
+        indice;
+
+
+    let menu =
+        obtenerMenuActual();
+
+
+    document
+        .getElementById(
+            "modalTitulo"
+        )
+        .textContent =
+        "✏️ Editar menú";
+
+
+    document
+        .getElementById(
+            "modalNombre"
+        )
+        .value =
+        menu.submenus[
+            indice
+        ].nombre;
+
+
+    document
+        .getElementById(
+            "modalCodigo"
+        )
+        .style.display =
+        "none";
+
+
+    document
+        .getElementById(
+            "modalFondo"
+        )
+        .classList
+        .add("visible");
+
+}
+
+
+/* =====================================================
+   EDITAR CODIGO
+===================================================== */
+
+function editarCodigo(indice) {
+
+
+    tipoModal =
+        "editarCodigo";
+
+
+    indiceEditar =
+        indice;
+
+
+    let menu =
+        obtenerMenuActual();
+
+
+    let item =
+        menu.codigos[
+            indice
+        ];
+
+
+    document
+        .getElementById(
+            "modalTitulo"
+        )
+        .textContent =
+        "✏️ Editar código";
+
+
+    document
+        .getElementById(
+            "modalNombre"
+        )
+        .value =
+        item.nombre;
+
+
+    document
+        .getElementById(
+            "modalCodigo"
+        )
+        .value =
+        item.codigo;
+
+
+    document
+        .getElementById(
+            "modalCodigo"
+        )
+        .style.display =
+        "block";
+
+
+    document
+        .getElementById(
+            "modalFondo"
+        )
+        .classList
+        .add("visible");
+
+}
+
+
+/* =====================================================
+   GUARDAR MODAL
+===================================================== */
+
+function guardarModal() {
+
+
+    let nombre =
+        document
+        .getElementById(
+            "modalNombre"
+        )
+        .value
+        .trim();
+
+
+    let codigo =
+        document
+        .getElementById(
+            "modalCodigo"
+        )
+        .value
+        .trim();
+
+
+    if (
+        nombre === ""
+    ) {
+
+        alert(
+            "Escribe un nombre."
+        );
+
+        return;
+
+    }
+
+
+    let menu =
+        obtenerMenuActual();
+
+
+    /*
+    ============================
+    NUEVO SUBMENU
+    ============================
+    */
+
+
+    if (
+        tipoModal ===
+        "nuevoSubmenu"
+    ) {
+
+
+        menu.submenus.push({
+
+            nombre: nombre,
+
+            submenus: [],
+
+            codigos: []
+
+        });
+
+    }
+
+
+    /*
+    ============================
+    EDITAR SUBMENU
+    ============================
+    */
+
+
+    else if (
+        tipoModal ===
+        "editarSubmenu"
+    ) {
+
+
+        menu.submenus[
+            indiceEditar
+        ].nombre =
+        nombre;
+
+    }
+
+
+    /*
+    ============================
+    NUEVO CODIGO
+    ============================
+    */
+
+
+    else if (
+        tipoModal ===
+        "nuevoCodigo"
+    ) {
+
+
+        if (
+            codigo === ""
+        ) {
+
+            alert(
+                "Escribe el código USSD."
+            );
+
+            return;
+
+        }
+
+
+        menu.codigos.push({
+
+            nombre: nombre,
+
+            codigo: codigo
+
+        });
+
+    }
+
+
+    /*
+    ============================
+    EDITAR CODIGO
+    ============================
+    */
+
+
+    else if (
+        tipoModal ===
+        "editarCodigo"
+    ) {
+
+
+        if (
+            codigo === ""
+        ) {
+
+            alert(
+                "Escribe el código USSD."
+            );
+
+            return;
+
+        }
+
+
+        menu.codigos[
+            indiceEditar
+        ].nombre =
+        nombre;
+
+
+        menu.codigos[
+            indiceEditar
+        ].codigo =
+        codigo;
+
+    }
+
+
+    guardarDatos();
+
+    cerrarModal();
+
+    mostrarPantalla();
+
+}
+
+
+/* =====================================================
+   ELIMINAR SUBMENU
+===================================================== */
+
+function eliminarSubmenu(indice) {
+
+
+    let menu =
+        obtenerMenuActual();
+
+
+    let submenu =
+        menu.submenus[
+            indice
+        ];
+
+
+    let cantidadMenus =
+        contarTodo(
+            submenu,
+            "menus"
+        );
+
+
+    let cantidadCodigos =
+        contarTodo(
+            submenu,
+            "codigos"
+        );
+
+
+    let mensaje =
+        "¿Eliminar el menú '" +
+        submenu.nombre +
+        "'?";
+
+
+    if (
+        cantidadMenus > 0 ||
+        cantidadCodigos > 0
+    ) {
+
+        mensaje +=
+
+            "\n\nTambién se eliminarán: " +
+
+            cantidadMenus +
+
+            " submenú(s) y " +
+
+            cantidadCodigos +
+
+            " código(s).";
+
+    }
+
+
+    if (
+        !confirm(mensaje)
+    ) {
+
+        return;
+
+    }
+
+
+    menu.submenus.splice(
+        indice,
+        1
+    );
+
+
+    guardarDatos();
+
+    mostrarPantalla();
+
+}
+
+
+/* =====================================================
+   CONTAR ELEMENTOS
+===================================================== */
+
+function contarTodo(
+    menu,
+    tipo
+) {
+
+
+    let total = 0;
+
+
+    if (
+        tipo === "menus"
+    ) {
+
+        total =
+            menu.submenus.length;
+
+    }
+
+
+    if (
+        tipo === "codigos"
+    ) {
+
+        total =
+            menu.codigos.length;
+
+    }
+
+
+    menu.submenus.forEach(
+
+        function(submenu) {
+
+            total +=
+                contarTodo(
+                    submenu,
+                    tipo
+                );
+
+        }
+
+    );
+
+
+    return total;
+
+}
+
+
+/* =====================================================
+   ELIMINAR CODIGO
+===================================================== */
+
+function eliminarCodigo(indice) {
+
+
+    if (
+        !confirm(
+            "¿Eliminar este código?"
+        )
+    ) {
+
+        return;
+
+    }
+
+
+    let menu =
+        obtenerMenuActual();
+
+
+    menu.codigos.splice(
+        indice,
+        1
+    );
+
+
+    guardarDatos();
+
+    mostrarPantalla();
+
+}
+
+
+/* =====================================================
+   MARCAR USSD
+===================================================== */
+
+function marcarCodigo(indice) {
+
+
+    let menu =
+        obtenerMenuActual();
+
+
+    let codigo =
+        menu.codigos[
+            indice
+        ].codigo
+        .trim();
+
+
+    /*
+    Convertir # a %23
+    */
+
+
+    let numero =
+        codigo.replace(
+            /#/g,
+            "%23"
+        );
+
+
+    window.location.href =
+        "tel:" + numero;
+
+}
+
+
+/* =====================================================
+   MENU LATERAL
+===================================================== */
+
+function abrirMenu() {
+
+
+    document
+        .getElementById(
+            "menuLateral"
+        )
+        .classList
+        .add("abierto");
+
+
+    document
+        .getElementById(
+            "overlay"
+        )
+        .classList
+        .add("visible");
+
+}
+
+
+function cerrarMenu() {
+
+
+    document
+        .getElementById(
+            "menuLateral"
+        )
+        .classList
+        .remove("abierto");
+
+
+    document
+        .getElementById(
+            "overlay"
+        )
+        .classList
+        .remove("visible");
+
+}
+
+
+/* =====================================================
+   MOSTRAR MENU LATERAL
+===================================================== */
+
+function mostrarMenuLateral() {
+
+
+    let lista =
+        document.getElementById(
+            "listaMenu"
+        );
+
+
+    lista.innerHTML = "";
+
+
+    /*
+    INICIO
+    */
+
+
+    let inicio =
+        document.createElement(
+            "div"
+        );
+
+
+    inicio.className =
+        "item-menu nivel-0";
+
+
+    inicio.innerHTML = `
+
+        <div class="item-nombre">
+
+            🏠 Inicio
+
+        </div>
+
+    `;
+
+
+    inicio.onclick =
+        function() {
+
+            rutaActual = [];
+
+            mostrarPantalla();
+
+            cerrarMenu();
+
+        };
+
+
+    lista.appendChild(
+        inicio
+    );
+
+
+    /*
+    SUBMENUS
+    */
+
+
+    crearArbolMenu(
+        datos,
+        lista,
+        []
+    );
+
+}
+
+
+/* =====================================================
+   CREAR ARBOL VISUAL
+===================================================== */
+
+function crearArbolMenu(
+    menu,
+    contenedor,
+    ruta
+) {
+
+
+    menu.submenus.forEach(
+
+        function(submenu, indice) {
+
+
+            let nuevaRuta =
+                ruta.concat(indice);
+
+
+            let nivel =
+                nuevaRuta.length;
+
+
+            /*
+            Limitar la clase al nivel 9
+            */
+
+            let claseNivel =
+                Math.min(
+                    nivel,
+                    9
+                );
+
+
+            let elemento =
+                document.createElement(
+                    "div"
+                );
+
+
+            elemento.className =
+                "item-menu nivel-" +
+                claseNivel;
+
+
+            elemento.innerHTML = `
+
+                <div
+                    class="item-nombre">
+
+                    📁
+                    ${escaparHTML(
+                        submenu.nombre
+                    )}
+
+                </div>
+
+
+                <div
+                    class="item-acciones">
+
+
+                    <button
+                        title="Editar"
+                        onclick="editarDesdeMenu(event, ${JSON.stringify(nuevaRuta)})">
+
+                        ✏️
+
+                    </button>
+
+
+                    <button
+                        title="Eliminar"
+                        onclick="eliminarDesdeMenu(event, ${JSON.stringify(nuevaRuta)})">
+
+                        🗑️
+
+                    </button>
+
+
+                </div>
+
+            `;
+
+
+            elemento
+                .querySelector(
+                    ".item-nombre"
+                )
+                .onclick =
+                function() {
+
+                    rutaActual =
+                        nuevaRuta;
+
+                    mostrarPantalla();
+
+                    cerrarMenu();
+
+                };
+
+
+            contenedor.appendChild(
+                elemento
+            );
+
+
+            /*
+            CREAR HIJOS
+            */
+
+            crearArbolMenu(
+
+                submenu,
+
+                contenedor,
+
+                nuevaRuta
+
+            );
+
+        }
+
+    );
+
+}
+
+
+/* =====================================================
+   EDITAR DESDE MENU
+===================================================== */
+
+function editarDesdeMenu(
+    evento,
+    ruta
+) {
+
+
+    evento.stopPropagation();
+
+
+    let submenu =
+        obtenerPorRuta(
+            ruta
+        );
+
+
+    tipoModal =
+        "editarSubmenu";
+
+
+    indiceEditar =
+        -1;
+
+
+    /*
+    Guardamos temporalmente
+    la ruta que queremos editar.
+    */
+
+    rutaEditar =
+        ruta;
+
+
+    document
+        .getElementById(
+            "modalTitulo"
+        )
+        .textContent =
+        "✏️ Editar menú";
+
+
+    document
+        .getElementById(
+            "modalNombre"
+        )
+        .value =
+        submenu.nombre;
+
+
+    document
+        .getElementById(
+            "modalCodigo"
+        )
+        .style.display =
+        "none";
+
+
+    document
+        .getElementById(
+            "modalFondo"
+        )
+        .classList
+        .add("visible");
+
+}
+
+
+/* =====================================================
+   ELIMINAR DESDE MENU
+===================================================== */
+
+function eliminarDesdeMenu(
+    evento,
+    ruta
+) {
+
+
+    evento.stopPropagation();
+
+
+    let padre =
+        obtenerPadreRuta(
+            ruta
+        );
+
+
+    let indice =
+        ruta[
+            ruta.length - 1
+        ];
+
+
+    let submenu =
+        padre.submenus[
+            indice
+        ];
+
+
+    let confirmar =
+        confirm(
+            "¿Eliminar '" +
+            submenu.nombre +
+            "' y todo su contenido?"
+        );
+
+
+    if (!confirmar) {
+
+        return;
+
+    }
+
+
+    padre.submenus.splice(
+        indice,
+        1
+    );
+
+
+    /*
+    Si estábamos dentro
+    del menú eliminado,
+    volver a Inicio.
+    */
+
+    if (
+        rutaActual.length >=
+        ruta.length
+    ) {
+
+        let mismaRuta = true;
+
+
+        for (
+            let i = 0;
+            i < ruta.length;
+            i++
+        ) {
+
+            if (
+                rutaActual[i] !==
+                ruta[i]
+            ) {
+
+                mismaRuta = false;
+
+                break;
+
+            }
+
+        }
+
+
+        if (mismaRuta) {
+
+            rutaActual = [];
+
+        }
+
+    }
+
+
+    guardarDatos();
+
+    mostrarPantalla();
+
+}
+
+
+/* =====================================================
+   RUTA TEMPORAL PARA EDITAR
+===================================================== */
+
+let rutaEditar = null;
+
+
+/* =====================================================
+   OBTENER MENU POR RUTA
+===================================================== */
+
+function obtenerPorRuta(ruta) {
+
+
+    let menu = datos;
+
+
+    for (
+        let i = 0;
+        i < ruta.length;
+        i++
+    ) {
+
+        menu =
+            menu.submenus[
+                ruta[i]
+            ];
+
+    }
+
+
+    return menu;
+
+}
+
+
+/* =====================================================
+   OBTENER PADRE
+===================================================== */
+
+function obtenerPadreRuta(ruta) {
+
+
+    if (
+        ruta.length === 1
+    ) {
+
+        return datos;
+
+    }
+
+
+    let padreRuta =
+        ruta.slice(
+            0,
+            -1
+        );
+
+
+    return obtenerPorRuta(
+        padreRuta
+    );
+
+}
+
+
+/* =====================================================
+   CERRAR MODAL
+===================================================== */
+
+function cerrarModal() {
+
+
+    document
+        .getElementById(
+            "modalFondo"
+        )
+        .classList
+        .remove("visible");
+
+
+    rutaEditar = null;
+
+}
+
+
+/* =====================================================
+   MODIFICACIÓN ESPECIAL DE GUARDAR
+   PARA EDITAR DESDE EL MENU
+===================================================== */
+
+
+/*
+Reemplazamos la lógica normal
+cuando rutaEditar está activa.
+*/
+
+let guardarModalOriginal =
+    guardarModal;
+
+
+guardarModal = function() {
+
+
+    if (
+        rutaEditar !== null
+    ) {
+
+
+        let nombre =
+            document
+            .getElementById(
+                "modalNombre"
+            )
+            .value
+            .trim();
+
+
+        if (
+            nombre === ""
+        ) {
+
+            alert(
+                "Escribe un nombre."
+            );
+
+            return;
+
+        }
+
+
+        let submenu =
+            obtenerPorRuta(
+                rutaEditar
+            );
+
+
+        submenu.nombre =
+            nombre;
+
+
+        guardarDatos();
+
+        cerrarModal();
+
+        mostrarPantalla();
+
+        return;
+
+    }
+
+
+    guardarModalOriginal();
+
+};
+
+
+/* =====================================================
+   ESCAPAR HTML
+===================================================== */
+
+function escaparHTML(texto) {
+
+
+    let div =
+        document.createElement(
+            "div"
+        );
+
+
+    div.textContent =
+        texto;
+
+
+    return div.innerHTML;
+
+}
+
+
+/* =====================================================
+   INICIAR APP
+===================================================== */
+
+mostrarPantalla();
+
+</script>
+
+</body>
+
+</html>
