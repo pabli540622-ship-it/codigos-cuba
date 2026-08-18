@@ -1,0 +1,82 @@
+	<!DOCTYPE html>
+	<html lang="es">
+	<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi primera app</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 500px;
+            margin: 40px auto;
+            padding: 20px;
+            background: #f2f2f2;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        input {
+            width: 70%;
+            padding: 12px;
+            font-size: 16px;
+        }
+
+        button {
+            padding: 12px;
+            font-size: 16px;
+        }
+
+        li {
+            background: white;
+            margin-top: 10px;
+            padding: 12px;
+            list-style: none;
+            border-radius: 8px;
+        }
+
+        li.completada {
+            text-decoration: line-through;
+            opacity: 0.5;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>📝 Mis tareas</h1>
+
+    <input id="tarea" type="text" placeholder="Escribe una tarea">
+
+    <button onclick="agregarTarea()">Añadir</button>
+
+    <ul id="lista"></ul>
+
+    <script>
+        function agregarTarea() {
+
+            let texto = document.getElementById("tarea").value;
+
+            if (texto === "") {
+                alert("Escribe una tarea primero");
+                return;
+            }
+
+            let nuevaTarea = document.createElement("li");
+
+            nuevaTarea.textContent = texto;
+
+            nuevaTarea.onclick = function() {
+                nuevaTarea.classList.toggle("completada");
+            };
+
+            document.getElementById("lista").appendChild(nuevaTarea);
+
+            document.getElementById("tarea").value = "";
+        }
+    </script>
+
+</body>
+</html>
